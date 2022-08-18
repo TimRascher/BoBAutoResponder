@@ -13,8 +13,10 @@ import { Message } from "discord.js"
         ],
         /** @param { Message } message */
         rounding: async (message) => {
-            const matches = Tests.roundingPrompts.filter(p => message.content.toLowerCase().includes(p))
-            if (matches.length == 0) { return }
+            const ex = /(round.*?(up|down))/gi
+            const matches = ex.exec(message.content)
+            if (matches == null) { return }
+            if (matches[1].split(" ").length > 2) { return }
             await message.reply("You know we DON'T!")
         }
     }
