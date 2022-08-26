@@ -26,6 +26,9 @@ import { Message } from "discord.js"
             case Targets.Kyle:
                 await Tests.rounding(message)
                 break
+            case Targets.Mez:
+                await Tests.rounding(message)
+                break
             case Targets.Tim: break
         }
     })
