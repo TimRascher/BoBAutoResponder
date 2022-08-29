@@ -24,13 +24,12 @@ import { Message } from "discord.js"
     client.on("messageCreate", async (message) => {
         switch (message.author.id) {
             case Targets.Kyle:
-                await Tests.rounding(message)
                 break
             case Targets.Mez:
-                await Tests.rounding(message)
                 break
-            case Targets.Tim: break
+            case Targets.Tim: return
         }
+        await Tests.rounding(message)
     })
     client.login(process.env.TOKEN)
 })()
