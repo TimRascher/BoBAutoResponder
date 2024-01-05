@@ -20,7 +20,7 @@ import jsonHandler from "./jsonHandler.js"
  */
 
 const wordListFile = "./data/wordList.json"
-const wordOfTheDayFile = "./data/wordOfTheDay.json"
+const wordOfTheDayFile = "./data/persistent/wordOfTheDay.json"
 
 /** @returns {string} */
 const randomWord = async () => {
