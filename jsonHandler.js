@@ -1,4 +1,5 @@
 import fs from "fs"
+import path from "path"
 
 const jsonHandler = {
     /**
@@ -34,6 +35,27 @@ const jsonHandler = {
                 } else {
                     res()
                 }
+            })
+        })
+    },
+    /**
+    * @param {string} sourcePath - The path to the source file.
+    * @param {string} destPath - The path to the destination directory.
+    */
+    copyFileIfNotExists: async (sourcePath, destPath) => {
+        return new Promise((res, rej) => {
+            const fileName = path.basename(sourcePath)
+            const fullDestPath = path.join(destPath, fileName)
+            if (fs.existsSync(fullDestPath)) {
+                return
+            }
+
+            fs.copyFile(sourcePath, fullDestPath, (err) => {
+                if (err) {
+                    rej(err)
+                    return
+                }
+                res()
             })
         })
     }

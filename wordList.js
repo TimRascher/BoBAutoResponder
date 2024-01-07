@@ -20,7 +20,15 @@ import jsonHandler from "./jsonHandler.js"
  */
 
 const wordListFile = "./data/wordList.json"
-const wordOfTheDayFile = "./data/persistent/wordOfTheDay.json"
+const wordOfTheDayFileSrc = "./data/wordOfTheDay.json"
+const wordOfTheDayFileDir = "./data/persistent"
+const wordOfTheDayFile = `${wordOfTheDayFileDir}/wordOfTheDay.json`
+
+const getPacificDate = () => {
+    const now = new Date()
+    const str = now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" })
+    return new Date(str)
+}
 
 /** @returns {string} */
 const randomWord = async () => {
@@ -33,7 +41,7 @@ const randomWord = async () => {
 }
 /** @returns {string} */
 const todaysDate = () => {
-    const today = new Date()
+    const today = getPacificDate()
     return `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`
 }
 /** @returns {WordList} */
@@ -42,10 +50,14 @@ const wordList = async () => {
     const list = await jsonHandler.read(wordListFile) ?? { list: "blamo" }
     return list
 }
+const loadWordOfTheDay = async () => {
+    // await jsonHandler.copyFileIfNotExists(wordOfTheDayFileSrc, wordOfTheDayFileDir)
+    return await jsonHandler.read(wordOfTheDayFile)
+}
 /** @returns {Today} */
 const todaysWord = async () => {
     /** @type {WordOfTheDay} */
-    let today = await jsonHandler.read(wordOfTheDayFile)
+    let today = await loadWordOfTheDay()
     let date = todaysDate()
     if (today && today.date == date) { return { isNew: false, today: today } }
     today = { date: date, word: await randomWord(), wasFound: false }
@@ -54,7 +66,7 @@ const todaysWord = async () => {
 }
 const hasBeenFound = async () => {
     /** @type {WordOfTheDay} */
-    var today = await jsonHandler.read(wordOfTheDayFile)
+    var today = loadWordOfTheDay()
     if (today) {
         today.wasFound = true
     }
