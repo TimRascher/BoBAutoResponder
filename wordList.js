@@ -1,4 +1,5 @@
 import jsonHandler from "./jsonHandler.js"
+import moment from "moment-timezone"
 
 /**
  * @typedef {Object} WordList
@@ -25,9 +26,7 @@ const wordOfTheDayFileDir = "./data/persistent"
 const wordOfTheDayFile = `${wordOfTheDayFileDir}/wordOfTheDay.json`
 
 const getPacificDate = () => {
-    const now = new Date()
-    const str = now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" })
-    return new Date(str)
+    return moment().tz("America/Los_Angeles").toDate()
 }
 
 /** @returns {string} */
@@ -51,7 +50,6 @@ const wordList = async () => {
     return list
 }
 const loadWordOfTheDay = async () => {
-    // await jsonHandler.copyFileIfNotExists(wordOfTheDayFileSrc, wordOfTheDayFileDir)
     return await jsonHandler.read(wordOfTheDayFile)
 }
 /** @returns {Today} */
