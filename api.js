@@ -27,7 +27,7 @@ class API {
     /** @private */
     validate(settings) {
         if (Object.keys.length > 1) { return null }
-        if (!settings.timeOffSet 
+        if (typeof settings.timeOffSet !== "number"
             || isNaN(settings.timeOffSet) 
             || settings.timeOffSet < 0
             || settings.timeOffSet > 24) {

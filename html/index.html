@@ -27,7 +27,7 @@
         }
         function validate(settings) {
             if (Object.keys.length > 1) { return null }
-            if (!settings.timeOffSet
+            if (typeof settings.timeOffSet !== "number"
                 || isNaN(settings.timeOffSet)
                 || settings.timeOffSet < 0
                 || settings.timeOffSet > 24) {
@@ -54,8 +54,8 @@
                     },
                     body: JSON.stringify(json)
                 })
-                    const jsonResponse = await response.json()
-                    console.log('Server response:', jsonResponse)
+                const jsonResponse = await response.json()
+                console.log('Server response:', jsonResponse)
                 if (response.status == 200) {
                     update()
                     return
