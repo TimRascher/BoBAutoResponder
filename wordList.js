@@ -1,4 +1,5 @@
 import jsonHandler from "./jsonHandler.js"
+import time from "./time.js"
 
 /**
  * @typedef {Object} WordList

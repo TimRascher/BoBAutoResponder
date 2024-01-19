@@ -5,6 +5,9 @@ import { Message } from "discord.js"
 import WordList from "./wordList.js"
 import wordList from "./wordList.js"
 
+import time from "./time.js"
+console.log(await time.date())
+
 // (async () => {
 //     const secretImage = "https://tenor.com/view/secret-word-paul-rueben-peewee-gif-13742445"
 //     const Tests = {

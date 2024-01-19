@@ -11,14 +11,16 @@ import jsonHandler from "./jsonHandler.js"
 class Options {
     constructor() {}
     get constants() {
-        const persistentDataDir = "./data/persistent"
+        const dataDir = "./data"
+        const persistentDataDir = `${dataDir}/persistent`
         const settingsFile = `${persistentDataDir}/settings.json`
-        return {persistentDataDir, settingsFile}
+        const defaultSettingsFile = `${dataDir}/defaultSettings.json`
+        return {dataDir, persistentDataDir, settingsFile, defaultSettingsFile}
     }
 
     /** @returns {Settings} */
     async settings() {
-        return await jsonHandler.read(this.constants.settingsFile)
+        return await jsonHandler.read(this.constants.settingsFile) ?? await jsonHandler.read(this.constants.defaultSettingsFile)
     }
 }
 

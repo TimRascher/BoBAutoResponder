@@ -16,7 +16,7 @@ const jsonHandler = {
                 fs.readFile(filePath, (err, rawData) => {
                     if (err) { rej(err) }
                     const data = JSON.parse(rawData)
-                    console.log(data)
+                    // console.log(data)
                     res(data)
                 })
             })
