@@ -15,7 +15,9 @@ class Options {
         const persistentDataDir = `${dataDir}/persistent`
         const settingsFile = `${persistentDataDir}/settings.json`
         const defaultSettingsFile = `${dataDir}/defaultSettings.json`
-        return {dataDir, persistentDataDir, settingsFile, defaultSettingsFile}
+        const wordList = `${dataDir}/wordList.json`
+        const wordOfTheDay = `${persistentDataDir}/wordOfTheDay.json`
+        return {dataDir, persistentDataDir, settingsFile, defaultSettingsFile, wordList, wordOfTheDay}
     }
 
     /** @returns {Settings} */
@@ -23,21 +25,5 @@ class Options {
         return await jsonHandler.read(this.constants.settingsFile) ?? await jsonHandler.read(this.constants.defaultSettingsFile)
     }
 }
-
-
-
-// let storedOptions = null
-// let options = {}
-// options = {
-//     /** @returns {Options} */
-//     options: async () => {
-//         if (options != null) { return storedOptions }
-//         storedOptions = await jsonHandler.read()
-//     },
-//     constants: {
-//         persistentDataDir: "./data/persistent",
-//         optionsFile: `${options.constants.persistentDataDir}`
-//     }
-// }
 
 export default new Options()
