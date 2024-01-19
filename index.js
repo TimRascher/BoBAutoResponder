@@ -4,8 +4,11 @@ import Targets from "./targets.js"
 import { Message } from "discord.js"
 import WordList from "./wordList.js"
 import wordList from "./wordList.js"
+import API from "./api.js"
+
 
 (async () => {
+    API.start()
     const secretImage = "https://tenor.com/view/secret-word-paul-rueben-peewee-gif-13742445"
     const Tests = {
         roundingPrompts: [

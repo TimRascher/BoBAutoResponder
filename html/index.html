@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <label for="timeOffset">Time Offset for Word of the Day:</label>
+    <input type="number" id="timeOffset" name="timeOffset" min="0" max="24" required>
+    <br />
+    <button id="submitButton" disabled="true">Submit</button>
+
+    <script>
+        const elements = {
+            /** @type {HTMLInputElement} */
+            get input() { return document.getElementById("timeOffset") },
+            /** @type {HTMLButtonElement} */
+            get submit() { return document.getElementById("submitButton") }
+        }
+        const input = {
+            get element() { elements.input },
+            get json() { return JSON.parse(elements.input.getAttribute("json")) },
+            set json(value) { elements.input.setAttribute("json", JSON.stringify(value)) }
+        }
+        function validate(settings) {
+            if (Object.keys.length > 1) { return null }
+            if (!settings.timeOffSet
+                || isNaN(settings.timeOffSet)
+                || settings.timeOffSet < 0
+                || settings.timeOffSet > 24) {
+                return null
+            }
+            return settings
+        }
+        async function loadSettings() {
+            let response = await fetch("/settings/")
+            let json = await response.json()
+            elements.input.setAttribute("json", JSON.stringify(json))
+            elements.input.value = json.timeOffSet
+        }
+        async function saveSettings() {
+            function reset() { elements.input.value = input.json.timeOffSet }
+            let json = input.json
+            function update() { input.json = json }
+            json.timeOffSet = Number(elements.input.value)
+            if (validate(json)) {
+                const response = await fetch("/settings/", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(json)
+                })
+                    const jsonResponse = await response.json()
+                    console.log('Server response:', jsonResponse)
+                if (response.status == 200) {
+                    update()
+                    return
+                }
+            }
+            reset()
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            elements.submit.addEventListener("click", async (event) => {
+                event.preventDefault()
+                await saveSettings()
+            })
+            elements.submit.removeAttribute("disabled")
+            await loadSettings()
+        })
+    </script>
+</body>
+
+</html>
