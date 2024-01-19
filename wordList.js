@@ -1,5 +1,4 @@
 import jsonHandler from "./jsonHandler.js"
-import moment from "moment-timezone"
 
 /**
  * @typedef {Object} WordList
@@ -25,10 +24,6 @@ const wordOfTheDayFileSrc = "./data/wordOfTheDay.json"
 const wordOfTheDayFileDir = "./data/persistent"
 const wordOfTheDayFile = `${wordOfTheDayFileDir}/wordOfTheDay.json`
 
-const getPacificDate = () => {
-    return moment().tz("America/Los_Angeles").toDate()
-}
-
 /** @returns {string} */
 const randomWord = async () => {
     const words = await wordList()
@@ -39,10 +34,10 @@ const randomWord = async () => {
     return "blamo"
 }
 /** @returns {string} */
-const todaysDate = () => {
-    const today = getPacificDate()
-    return `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`
-}
+// const todaysDate = () => {
+//     const today = getPacificDate()
+//     return `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`
+// }
 /** @returns {WordList} */
 const wordList = async () => {
     /** @type {WordList} */
