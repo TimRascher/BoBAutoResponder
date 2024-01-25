@@ -46,7 +46,7 @@ const todaysWord = async () => {
     let date = await time.date()
     if (today && today.date == date) { return { isNew: false, today: today } }
     today = { date: date, word: await randomWord(), wasFound: false }
-    await jsonHandler.write(wordOfTheDayFile, today)
+    await jsonHandler.write(options.constants.wordOfTheDay, today)
     return { isNew: true, today: today }
 }
 const hasBeenFound = async () => {
@@ -55,7 +55,7 @@ const hasBeenFound = async () => {
     if (today) {
         today.wasFound = true
     }
-    await jsonHandler.write(wordOfTheDayFile, today)
+    await jsonHandler.write(options.constants.wordOfTheDay, today)
 }
 
 export default {
