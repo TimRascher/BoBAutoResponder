@@ -28,6 +28,10 @@ const jsonHandler = {
      */
     write: async (filePath, obj) => {
         return new Promise((res, rej) => {
+            const dirname = path.dirname(filePath)
+            if (fs.existsSync(dirname) == false) {
+                fs.mkdirSync(dirname, { recursive: true })
+            }
             const data = JSON.stringify(obj)
             fs.writeFile(filePath, data, 'utf8', function (err) {
                 if (err) {

@@ -1,4 +1,6 @@
-import ClientSetup from "./setupDiscord.js"
+// import ClientSetup from "./setupDiscord.js"
+import "dotenv/config"
+import * as SideKick from "@jssidekick/discordcommon"
 import { EmbedBuilder, AttachmentBuilder } from "discord.js"
 import Targets from "./targets.js"
 import { Message } from "discord.js"
@@ -35,7 +37,6 @@ import API from "./api.js"
         },
         /** @param { Message } message */
         perchance: async (message) => {
-            //if (message.author.id == Targets.Tim) { return }
             const regex = new RegExp(`\\bperchance\\b`, 'i')
             if (regex.test(message.content)) {
                 message.reply("You can't just say perchance!")
@@ -69,7 +70,7 @@ import API from "./api.js"
             }
         }
     }
-    const client = ClientSetup()
+    const client = await SideKick.Setup()
     client.on("messageCreate", async (message) => {
         if (message.author.id == Targets.Bot) { return }
         await Tests.rounding(message)
