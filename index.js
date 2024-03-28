@@ -7,6 +7,7 @@ import { Message } from "discord.js"
 import WordList from "./wordList.js"
 import wordList from "./wordList.js"
 import API from "./api.js"
+import * as roles from "./serverRoleManagement.js"
 
 
 (async () => {
@@ -48,7 +49,8 @@ import API from "./api.js"
             if (secret.isNew) {
                 const adminChannel = message.client.channels.cache.get(Targets.AdminChannel)
                 if (adminChannel) {
-                    adminChannel.send(`Shh... Today's Secret Word is ||${secret.today.word}||`).catch(console.error) }
+                    adminChannel.send(`Shh... Today's Secret Word is ||${secret.today.word}||`).catch(console.error)
+                }
             }
             const regex = new RegExp(`\\b${secret.today.word}\\b`, 'i')
             if (regex.test(message.content)) {
@@ -71,6 +73,13 @@ import API from "./api.js"
         }
     }
     const client = await SideKick.Setup()
+    client.once('ready', async () => {
+        await roles.createRoles(client, Targets)
+        await roles.setRoles(client, Targets)
+    })
+    client.on('guildMemberAdd', async member => {
+        await roles.setRoles(client, Targets)
+    })
     client.on("messageCreate", async (message) => {
         if (message.author.id == Targets.Bot) { return }
         await Tests.rounding(message)
