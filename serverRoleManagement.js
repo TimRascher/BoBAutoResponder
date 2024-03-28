@@ -29,6 +29,8 @@ async function setRoles(client, targets) {
                 if (!member.roles.cache.has(targets.OptOut.id)) {
                     member.roles.add(targets.OptIn.id).catch(console.error)
                 }
+            } else if (member.roles.cache.has(targets.OptOut.id)) {
+                member.roles.remove(targets.OptIn.id).catch(console.error)
             }
         })
     }).catch(console.error)

@@ -59,7 +59,7 @@ import * as roles from "./serverRoleManagement.js"
                     await message.reply({ content: `Yay! Today's Secret Word is '${secret.today.word}'!`, files: [attachment] })
                 }
                 const everyone = async (target) => {
-                    await target.send({ content: `@everyone <@${message.author.id}> found Today's Secret Word, '${secret.today.word}'!`, files: [attachment] })
+                    await target.send({ content: `<@&${Targets.OptIn.id}> <@${message.author.id}> found Today's Secret Word, '${secret.today.word}'!\nOpt Out of these messages with /optout`, files: [attachment] })
                 }
                 if (secret.today.wasFound == false) {
                     await wordList.hasBeenFound()
@@ -74,6 +74,7 @@ import * as roles from "./serverRoleManagement.js"
     }
     const client = await SideKick.Setup()
     client.once('ready', async () => {
+        await SideKick.RegisterCommands()
         await roles.createRoles(client, Targets)
         await roles.setRoles(client, Targets)
     })
@@ -82,6 +83,7 @@ import * as roles from "./serverRoleManagement.js"
     })
     client.on("messageCreate", async (message) => {
         if (message.author.id == Targets.Bot) { return }
+        if (message.member.roles.cache.has(Targets.OptOut.id)) { return }
         await Tests.rounding(message)
         await Tests.perchance(message)
         await Tests.secretWord(message)
