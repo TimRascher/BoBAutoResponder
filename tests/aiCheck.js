@@ -8,13 +8,25 @@
  * @returns {boolean}
  */
 export default async function aiCheck(message) {
-    const msgText = message.content.trim()
-    if (msgText.toLocaleLowerCase().startsWith("bob:") == false) { return false }
+    const msgText = checkForQuery(message)
+    if (msgText == null) { return false }
     const reply = await message.reply("Thinking...")
-    const editedMessage = msgText.slice(4).trim()
-    const aiWisdom = await new LocalAIClient({instructions: "Your name is BoB Auto Responder. You are super happy, and helpful, and you want everyone to like you."}).ask(editedMessage)
+    const aiWisdom = await new LocalAIClient({instructions: "Your name is BoB Auto Responder. You are super happy, and helpful, and you want everyone to like you."}).ask(msgText)
     await reply.edit(aiWisdom)
     return true
+}
+
+
+/**
+ * @param {Message} message 
+ * @returns {string?}
+ */
+function checkForQuery(message) {
+    const msgText = message.content.trim()
+    const isBobStart = msgText.toLocaleLowerCase().startsWith("bob:")
+    if (isBobStart == false && message.mentions.has(message.client.user) == false) { return null }
+    if (isBobStart) { return  msgText.slice(4).trim() }
+    return msgText
 }
 
 /**
