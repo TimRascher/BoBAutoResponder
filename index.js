@@ -8,6 +8,7 @@ import WordList from "./wordList.js"
 import wordList from "./wordList.js"
 import API from "./api.js"
 import * as roles from "./serverRoleManagement.js"
+import * as tests from "./tests/tests.js"
 
 
 (async () => {
@@ -84,6 +85,7 @@ import * as roles from "./serverRoleManagement.js"
     client.on("messageCreate", async (message) => {
         if (message.author.id == Targets.Bot) { return }
         if (message.member.roles.cache.has(Targets.OptOut.id)) { return }
+        if (await tests.aiCheck(message)) { return }
         await Tests.rounding(message)
         await Tests.perchance(message)
         await Tests.secretWord(message)
